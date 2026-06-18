@@ -1,14 +1,14 @@
+from pathlib import Path
+
 import wfdb
 import numpy as np
-from pathlib import Path
 
 # ============================================================
 # DATASET LOCATION
 # ============================================================
-# Point this to the MIT-BIH Arrhythmia Database directory
-# Download from: https://physionet.org/content/mitdb/1.0.0/
 
-DATASET_DIR = Path("../data/mit-bih")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATASET_DIR = PROJECT_ROOT / "data" / "raw" / "mit-bih-arrhythmia-database-1.0.0"
 
 # ============================================================
 # RECORDS IN MIT-BIH ARRHYTHMIA DATABASE
@@ -59,18 +59,13 @@ for record_name in records:
     # LOAD ECG SIGNAL
     # --------------------------------------------------------
 
-    record = wfdb.rdrecord(
-        str(DATASET_DIR / record_name)
-    )
+    record = wfdb.rdrecord(str(DATASET_DIR / record_name))
 
     # --------------------------------------------------------
     # LOAD ANNOTATIONS
     # --------------------------------------------------------
 
-    ann = wfdb.rdann(
-        str(DATASET_DIR / record_name),
-        "atr"
-    )
+    ann = wfdb.rdann(str(DATASET_DIR / record_name), "atr")
 
     # --------------------------------------------------------
     # USE LEAD 1
@@ -180,24 +175,29 @@ print("y shape:", y.shape)
 # SAVE DATASET
 # ============================================================
 
-np.save("../data/X_beats.npy", X)
-np.save("../data/y_labels.npy", y)
+np.save("X_beats.npy", X)
+np.save("y_labels.npy", y)
 
 print("\nSaved:")
-print("../data/X_beats.npy")
-print("../data/y_labels.npy")
+print("X_beats.npy")
+print("y_labels.npy")
 
 '''
-| Symbol | Meaning                               |
-| ------ | ------------------------------------- |
-| N      | Normal beat                           |
-| L      | Left bundle branch block beat         |
-| R      | Right bundle branch block beat        |
-| A      | Atrial premature beat                 |
-| a      | Aberrated atrial premature beat       |
-| J      | Nodal (junctional) premature beat     |
-| S      | Supraventricular premature beat       |
-| V      | Premature ventricular contraction     |
-| F      | Fusion of ventricular and normal beat |
-| /      | Paced beat                            |
+| Symbol | Meaning                               |                  |
+| ------ | ------------------------------------- | ---------------- |
+| N      | Normal beat                           |                  |
+| L      | Left bundle branch block beat         |                  |
+| R      | Right bundle branch block beat        |                  |
+| A      | Atrial premature beat                 |                  |
+| a      | Aberrated atrial premature beat       |                  |
+| J      | Nodal (junctional) premature beat     |                  |
+| S      | Supraventricular premature beat       |                  |
+| V      | Premature ventricular contraction     |                  |
+| F      | Fusion of ventricular and normal beat |                  |
+| /      | Paced beat                            |                  |
+| Q      | Unclassifiable beat                   | ([PhysioNet][1]) |
+
+[1]: https://physionet.org/physiotools/wpg/wpg_36.htm?utm_source=chatgpt.com "WFDB Programmer's Guide: 4. Annotation Codes"
+
+
 '''

@@ -1,6 +1,18 @@
 # Data files
-data/mit-bih/
-data/*.npy
+data/raw/
+data/processed/*.npy
+data/processed/*.npz
+data/processed/*.csv
+data/processed/*.parquet
+
+# Model and output artifacts
+models/*.joblib
+models/*.pkl
+models/*.h5
+outputs/*.png
+outputs/*.jpg
+outputs/*.jpeg
+outputs/*.svg
 
 # Virtual environment
 venv/

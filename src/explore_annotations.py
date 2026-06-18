@@ -1,27 +1,22 @@
-# ============================================================
-# EXPLORE ANNOTATIONS IN MIT-BIH DATABASE
-# ============================================================
+from pathlib import Path
+
+# ------------------------------------------------------------
+# IMPORTS
+# ------------------------------------------------------------
 
 # WFDB is used to read MIT-BIH ECG files
 import wfdb
-from pathlib import Path
 
 # Counter counts how many times each label appears
 from collections import Counter
 
-
-# ============================================================
-# CONFIGURATION
-# ============================================================
-# Point this to the MIT-BIH Arrhythmia Database directory
-# Download from: https://physionet.org/content/mitdb/1.0.0/
-
-DATASET_DIR = Path("../data/mit-bih")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw" / "mit-bih-arrhythmia-database-1.0.0"
 
 
-# ============================================================
+# ------------------------------------------------------------
 # LOAD ANNOTATIONS
-# ============================================================
+# ------------------------------------------------------------
 
 # Read the annotation file associated with record 100
 #
@@ -35,14 +30,14 @@ DATASET_DIR = Path("../data/mit-bih")
 # sample 662 -> A
 #
 ann = wfdb.rdann(
-    str(DATASET_DIR / "100"),
+    str(RAW_DATA_DIR / '100'),
     'atr'
 )
 
 
-# ============================================================
+# ------------------------------------------------------------
 # COUNT LABELS
-# ============================================================
+# ------------------------------------------------------------
 
 # ann.symbol contains all annotation codes
 #
@@ -54,9 +49,9 @@ ann = wfdb.rdann(
 counts = Counter(ann.symbol)
 
 
-# ============================================================
+# ------------------------------------------------------------
 # PRINT RESULTS
-# ============================================================
+# ------------------------------------------------------------
 
 print("\nAnnotation Counts:\n")
 
